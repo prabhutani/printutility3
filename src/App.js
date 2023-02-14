@@ -1,15 +1,12 @@
 import './App.css';
 import Copy from './Copy';
 import 'tachyons'
-import React, { Component, createRef, createRoot } from 'react';
+import React, { Component, createRef } from 'react';
 import Modal from './Modal';
-import DomToImage from 'dom-to-image';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import ReactDOM from 'react-dom'
 // import domToPdfContent from './Domtopdf';
 
-import reactToPdf from './Domtopdf';
 
 const initialState = {
   display: false,
@@ -29,37 +26,37 @@ class App extends Component {
     super(props);
     this.state = initialState;
     this.domRef = createRef();
-    this.childRef = createRef(0);
+    // this.childRef = createRef(0);
   }
 
 
   async printer(doc, arr) {
-    const i = doc.length;
-    for (const image of arr) {
-      try {
-        console.log(image);
-        const canvas = await html2canvas(image);
-        
-        const imageData = canvas.toDataURL('image/png');
-        doc.addImage(
-          imageData,
-          'PNG',
-          0,
-          0,
-          doc.internal.pageSize.getWidth(),
-          doc.internal.pageSize.getHeight()
-        );
-        doc.addPage('a4', 'l');
-        this.updateProgress();
-      } catch (error) {
-        console.error('Error printing:', error);
+    if (this.state.display) {
+      for (const image of arr) {
+        try {
+          console.log(image);
+          const canvas = await html2canvas(image);
+          const imageData = canvas.toDataURL('image/png');
+          doc.addImage(
+            imageData,
+            'PNG',
+            0,
+            0,
+            doc.internal.pageSize.getWidth(),
+            doc.internal.pageSize.getHeight()
+          );
+          doc.addPage('a4', 'l');
+          this.updateProgress();
+        } catch (error) {
+          console.error('Error printing:', error);
+        }
       }
+      doc.save();
+      this.setState({
+        display: false,
+        startPrint: false
+      });
     }
-    doc.save();
-    this.setState({
-      display: false,
-      startPrint: false
-    });
   }
 
 
@@ -82,7 +79,6 @@ class App extends Component {
       }
     }
   }
-
 
 
   componentWillUnmount = () => {
@@ -115,7 +111,7 @@ class App extends Component {
           this.state.display && (<div style={{ width: "100%", position: "fixed", zIndex: "2", top: "0" }}>
             <article className=" br2 bg-white pt2 pb3 ba b--black-10 mv4 mw6 shadow-5 center">
               <div className='flex justify-end pr3 pt2'>
-                <button id='butt' onClick={() => { this.setState({ startPrint: false }) }} className='ba b--near-white br3 flex-end shadow-4 dim pointer flex'> <p className='pa0 ma0 b'>X</p> </button>
+                <button id='butt' onClick={() => { this.setState({ display: false }) }} className='ba b--near-white br3 flex-end shadow-4 dim pointer flex'> <p className='pa0 ma0 b'>X</p> </button>
               </div>
               <Modal ref={this.childRef} resetApp={resetApp} />
             </article>
