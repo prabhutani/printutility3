@@ -1,0 +1,4 @@
+
+How to Iterate through child nodes of Dom with useRef : https://stackoverflow.com/questions/61711291/how-to-loop-through-refs-in-react-and-get-values
+Create PDFs from React Components at Client Side  : https://shivekkhurana.medium.com/how-to-create-pdfs-from-react-components-client-side-solution-7f506d9dfa6d
+HTML2Canvas examples : https://github.com/niklasvh/html2canvas
