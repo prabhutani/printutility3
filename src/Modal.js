@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
@@ -10,23 +10,22 @@ LinearProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const Modal = forwardRef((props, ref) => {
+function Modal({ progress, resetApp }) {
     const [prog, setProg] = useState(0);
-
-    useImperativeHandle(ref, () => ({
-        updateState(newState) {
-            setProg((prevProg) => prevProg + newState);
-        }
-    }))
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setProg((prevProg) => (prevProg >= 100 ? props.resetApp() : ((props.progress) ? prevProg + props.progress : prevProg)));
+            if (progress <= 100) {
+                setProg(progress);
+            } else {
+                resetApp();
+                setProg(100);
+            }
         }, 10);
         return () => {
             clearInterval(timer);
         };
-    }, [props.progress, props.resetApp]);
+    }, [progress, resetApp]);
 
     return (
         <main className="pa4 black-80">
@@ -37,7 +36,7 @@ const Modal = forwardRef((props, ref) => {
             </div>
         </main>
     )
-})
+}
 
 
 function LinearProgressWithLabel(props) {
