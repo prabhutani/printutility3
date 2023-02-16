@@ -4,8 +4,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-
-
 LinearProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
 };

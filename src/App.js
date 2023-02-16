@@ -8,11 +8,14 @@ const domRef = createRef();
 const childRef = createRef();
 domRef.current = [];
 function App() {
-  var i = 50;
+  var i = 51;
   return (
     <div>
       <Printer domRef={domRef} ref = {childRef} />
+      <div style={{display : "flex", justifyContent : "space-between"}}>
       <button className='br3 fw7 bco pl2 pr2 pb1 f4 link shadow white pointer mt1 mb1 ma2 bg-dark-blue' onClick={() => childRef.current.toggleDisplay()}>Print</button>
+      <p>Total Pages : {i} </p>
+      </div>
       <div>
         {(() => {
           var items = [];
