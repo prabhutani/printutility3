@@ -12,17 +12,12 @@ function Modal({ progress, resetApp }) {
     const [prog, setProg] = useState(0);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            if (progress <= 100) {
-                setProg(progress);
-            } else {
-                resetApp();
-                setProg(100);
-            }
-        }, 10);
-        return () => {
-            clearInterval(timer);
-        };
+        if (progress <= 100) {
+            setProg(progress);
+        } else {
+            resetApp();
+            setProg(100);
+        }
     }, [progress, resetApp]);
 
     return (
