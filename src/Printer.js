@@ -4,7 +4,7 @@ import React, { Component, createRef } from 'react';
 import Modal from './Modal';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { height } from '@mui/system';
+import * as htmlToImage from 'html-to-image';
 
 
 const initialState = {
@@ -42,12 +42,12 @@ class App extends Component {
     componentDidUpdate = () => {
         const page = this.props.domRef.current[this.state.completedPages];
         if (this.state.display && page) {
-            html2canvas(page, {
-                scale : 2
-            }).then((canvas) => {
-                    const leftMargin = (pdf.internal.pageSize.getWidth() * 0.10) / 2;
-                    const topMargin = (pdf.internal.pageSize.getHeight() * 0.10) / 2;;
-                    pdf.addImage(canvas, 'PNG', leftMargin, topMargin, pdf.internal.pageSize.getWidth() * 0.9, pdf.internal.pageSize.getHeight() * 0.9);
+            htmlToImage.toCanvas(page, {
+                canvasWidth: pdf.internal.pageSize.getWidth() * 3,
+                canvasHeight: pdf.internal.pageSize.getHeight() * 3, 
+              })
+                .then((dataUrl) => {
+                    pdf.addImage(dataUrl, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
                     if (this.props.domRef.current[this.state.completedPages + 1]) pdf.addPage('a4', 'landscape', 'px');
                 }).then(() => {
                     const percentage = Math.round(((parseInt(this.state.completedPages)) / (this.props.domRef.current.length)) * 100);
