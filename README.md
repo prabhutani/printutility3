@@ -6,4 +6,4 @@ The Project used 2 main libraries under the hood
 
 ## For a faster execution switch to Dev Branch
 
-This Branch used html-to-image library instead of html2canvas and performs faster
+This Branch used html-to-image library instead of html2canvas and performs faster : [Switch to Dev](https://github.com/prabhutani/printutility3/tree/dev)
